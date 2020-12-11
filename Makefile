@@ -1,2 +1,4 @@
-archive-here:
-	node dates.js
+dates.json:
+	node index.js paths.json $@
+
+.PHONY: dates.json

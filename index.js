@@ -1,7 +1,14 @@
+if (process.argv.length < 4) {
+   console.log("index.js <input file> <output file>");
+   return;
+}
+
+const [, , inf, ouf] = process.argv;
+
 const fs = require("fs");
 const path = require("path");
 
-const rawJSON = fs.readFileSync("paths.json");
+const rawJSON = fs.readFileSync(inf);
 const paths = JSON.parse(rawJSON);
 
 const out = {
@@ -64,9 +71,9 @@ for (const parent of paths.depth1) {
 
 for (const parent of paths.recursive) {
    const children = out.recursive[parent] = [];
-   for (const path of walkDir(parent)) {
+   for (const path of walkDirRec(parent)) {
       children.push(new Dated(path));
    }
 }
 
-fs.writeFileSync("dates.json", JSON.stringify(out));
+fs.writeFileSync(ouf, JSON.stringify(out));
