@@ -1,4 +1,7 @@
 dates.json:
 	node index.js paths.json $@
 
-.PHONY: dates.json
+gui:
+	.\node_modules\.bin\qode.cmd src/gui
+
+.PHONY: dates.json dist

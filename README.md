@@ -1,7 +1,14 @@
 # fs-date-archivist
 
-<img src="icon.png" width="200px">
+<img src="misc/icon.png" width="100px">
 
-File dates can be a pretty useful trail of when you did what.
-Aaaand I am out of energy to leave useful documentation.
-This wasn't meant for anyone else to use anyways.
+![](misc/gui.png)
+
+File dates can be a pretty useful trail of when you did what. This is a tool for
+archiving them.
+
+## how to run:
+
+- clone
+- npm i
+- make gui
