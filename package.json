@@ -1,6 +1,6 @@
 {
    "name": "@coalpha/fs-date-archivist",
-   "version": "0.1.0",
+   "version": "0.1.1",
    "main": "src/cli.js",
    "dependencies": {
       "@nodegui/nodegui": "^0.30.2"

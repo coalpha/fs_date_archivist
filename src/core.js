@@ -43,7 +43,7 @@ const walk_dir_rec = parent =>
          const {name} = dirent;
          const fullpath = path.join(parent, name);
          if (dirent.isDirectory()) {
-            return not_allowed(dirent) ? [] : [fullpath, walk_dir_rec(fullpath)];
+            return not_allowed(dirent) ? [] : [fullpath, ...walk_dir_rec(fullpath)];
          } else {
             return fullpath;
          }
@@ -56,15 +56,17 @@ function fs_date_archivist(config) {
    };
 
    for (const parent of config.depth1) {
-      const children = out.depth1[parent] = [];
-      for (const path of walk_dir(parent)) {
+      const abspath = path.resolve(parent);
+      const children = out.depth1[abspath] = [];
+      for (const path of walk_dir(abspath)) {
          children.push(new Dated(path));
       }
    }
 
    for (const parent of config.recursive) {
-      const children = out.recursive[parent] = [];
-      for (const path of walk_dir_rec(parent)) {
+      const abspath = path.resolve(parent);
+      const children = out.recursive[abspath] = [];
+      for (const path of walk_dir_rec(abspath)) {
          children.push(new Dated(path));
       }
    }
