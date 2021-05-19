@@ -1,4 +1,4 @@
-# fs-date-archivist
+# fs_date_archivist
 
 <img src="misc/icon.png" width="100px">
 

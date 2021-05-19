@@ -1,10 +1,27 @@
-const {QMainWindow, QListView, QLineEdit, QGridLayout, QWidget, QLabel, FlexLayout, QScrollArea, QPushButton, QListWidget, QListWidgetItem} = require("@nodegui/nodegui");
+const {
+   QMainWindow,
+   QListView,
+   QLineEdit,
+   QGridLayout,
+   QWidget,
+   QLabel,
+   FlexLayout,
+   QScrollArea,
+   QPushButton,
+   QListWidget,
+   QListWidgetItem,
+   QIcon,
+} = require("@nodegui/nodegui");
 
 const win = new QMainWindow;
 const win_width  = 900;
 const win_height = 685;
 win.setFixedSize(win_width, win_height);
 win.setWindowTitle("fs-date-archivist");
+
+const icon_module = require("../misc/icon.ico");
+const icon_path   = `${__dirname}/${icon_module.default}`;
+win.setWindowIcon(new QIcon(icon_path));
 
 const root = new QWidget;
 root.setObjectName("root");
@@ -160,12 +177,12 @@ const fs = require("fs");
 go_button.addEventListener("clicked", () => {
    const ouf = output_input.text();
    if (ouf.length == 0) {
-      err_lbl.setText("you need to enter a path here ^^^^");
+      err_lbl.setText("Enter the output file path.");
       return;
    }
 
    if (fs.existsSync(ouf)) {
-      err_lbl.setText("will not overwrite output file. delete manually");
+      err_lbl.setText("Refusing to overwrite the output file. Delete manually.");
       return;
    }
 
@@ -185,7 +202,7 @@ go_button.addEventListener("clicked", () => {
    const obj = fs_date_archivist({depth1, recursive});
    fs.writeFileSync(ouf, JSON.stringify(obj));
 
-   err_lbl.setText("done");
+   err_lbl.setText("Finished.");
 });
 
 win.show();

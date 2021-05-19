@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-class Dated {
+class dated {
    constructor (path) {
       this.name = path;
       try {
@@ -59,7 +59,7 @@ function fs_date_archivist(config) {
       const abspath = path.resolve(parent);
       const children = out.depth1[abspath] = [];
       for (const path of walk_dir(abspath)) {
-         children.push(new Dated(path));
+         children.push(new dated(path));
       }
    }
 
@@ -67,7 +67,7 @@ function fs_date_archivist(config) {
       const abspath = path.resolve(parent);
       const children = out.recursive[abspath] = [];
       for (const path of walk_dir_rec(abspath)) {
-         children.push(new Dated(path));
+         children.push(new dated(path));
       }
    }
 
