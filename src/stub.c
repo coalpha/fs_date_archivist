@@ -1,15 +1,12 @@
-#include <wchar.h>
 #define WIN32_LEAN_AND_MEAN
-#include <stdio.h>
 #include <windows.h>
 
 #define qode "qode.exe"
 #define true 1
-#define SETCWDTO "SETCWDTO"
+#define SETCWD "SETCWD="
+#define LEN(s) (sizeof(s) - 1)
 
 STARTUPINFOW si;
-
-#define LEN(s) (sizeof(s) - 1)
 
 int wmain(int argc, wchar_t *argv[]) {
    DWORD name_len = 0;
@@ -36,11 +33,11 @@ int wmain(int argc, wchar_t *argv[]) {
    // includes null byte
    DWORD cwd_len = GetCurrentDirectoryW(0, NULL);
 
-   // the memory layout is going to look like `${__dirname}\0${qode} ${cwd}`
+   // the memory layout is going to look like `${__dirname}\0SETCWD=${cwd}\0\0`
    wchar_t *dirname = _alloca(
       sizeof(wchar_t) * (0
          + last_backslash + LEN("\0")
-         + qode_len + LEN(" ") + LEN(SETCWDTO) + LEN(" ") + cwd_len
+         + LEN("SETCWD=") + cwd_len + LEN("\0")
       )
    );
 
@@ -49,38 +46,27 @@ int wmain(int argc, wchar_t *argv[]) {
    }
    dirname[last_backslash] = '\0';
 
-   wchar_t *qode_arg = dirname + last_backslash + 1;
-   for (size_t i = 0; i < qode_len; ++i) {
-      qode_arg[i] = name[i];
+   wchar_t *env = dirname + last_backslash + 1;
+   for (size_t i = 0; i < LEN(SETCWD); ++i) {
+      env[i] = SETCWD[i];
    }
 
-   wchar_t *cwd_arg = qode_arg + qode_len;
-   *cwd_arg++ = ' ';
-
-   for (size_t i = 0; i < LEN(SETCWDTO); ++i) {
-      *cwd_arg++ = SETCWDTO[i];
-   }
-
-   GetCurrentDirectoryW(cwd_len, cwd_arg);
-
-   wprintf(L"qode: %s\ndirname: %s\nargs: %s\n", name, dirname, qode_arg);
+   wchar_t *cwd = env + LEN(SETCWD);
+   GetCurrentDirectoryW(cwd_len, cwd);
+   cwd[cwd_len] = '\0';
 
    PROCESS_INFORMATION pi;
 
-   BOOL success = CreateProcessW(
-      name,    // lpApplicationName
-      qode_arg, // lpCommandLine
-      NULL,    // lpProcessAttributes
-      NULL,    // lpThreadAttributes
-      true,    // bInheritHandles
-      0,       // dwCreationFlags
-      NULL,    // lpEnvironment
-      dirname, // lpCurrentDirectory
-      &si,     // lpStartupInfo
-      &pi      // lpProcessInformation
+   CreateProcessW(
+      name,                       // lpApplicationName
+      NULL,                       // lpCommandLine
+      NULL,                       // lpProcessAttributes
+      NULL,                       // lpThreadAttributes
+      true,                       // bInheritHandles
+      CREATE_UNICODE_ENVIRONMENT, // dwCreationFlags
+      env,                        // lpEnvironment
+      dirname,                    // lpCurrentDirectory
+      &si,                        // lpStartupInfo
+      &pi                         // lpProcessInformation
    );
-
-   {
-      printf("Error: %lu\n", GetLastError());
-   }
 }

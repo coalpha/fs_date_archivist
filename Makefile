@@ -9,22 +9,24 @@ cli:
 gui: dist/index.js
 	$(npx)\qode $<
 
-dist/index.js:
+dist: webpack.config.js $(wildcard src/*.js) $(wildcard misc/*)
 	$(npx)\webpack
 
-build: clean dist/index.js
+deploy: dist
 	$(npx)\nodegui-packer --init $(name)
 	$(npx)\nodegui-packer --pack dist
+
+build: clean deploy
 	move $(build) $@
-	$(rcedit) $@/qode.exe --set-icon misc/icon.ico
 
-f: build/$(name).exe
-	./$<
+build/$(name).exe: src/stub.c build
+	clang $< -Ofast -fuse-ld=lld -o $@
 
-build/$(name).exe: src/stub.c
-	clang $< -Ofast -o $@
+release: build build/$(name).exe
+	$(rcedit) $</qode.exe --set-icon misc/icon.ico
+	$(rcedit) $</$(name).exe --set-icon misc/icon.ico
 
 clean:
 	-rd /s /q dist deploy build
 
-.PHONY: cli gui dist/index.js build bundle deploy
+.PHONY: cli gui

@@ -14,6 +14,10 @@ const {
    QMessageBox,
 } = require("@nodegui/nodegui");
 
+if (process.env.SETCWD) {
+   process.chdir(process.env.SETCWD);
+}
+
 const win = new QMainWindow;
 const win_width  = 900;
 const win_height = 685;
@@ -208,10 +212,3 @@ go_button.addEventListener("clicked", () => {
 
 win.show();
 global.win = win;
-
-for (const arg of process.argv) {
-   console.log(arg);
-   const qlwi = new QListWidgetItem;
-   qlwi.setText(arg);
-   depth1_list.addItem(qlwi);
-}
