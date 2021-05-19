@@ -11,6 +11,7 @@ const {
    QListWidget,
    QListWidgetItem,
    QIcon,
+   QMessageBox,
 } = require("@nodegui/nodegui");
 
 const win = new QMainWindow;
@@ -207,3 +208,10 @@ go_button.addEventListener("clicked", () => {
 
 win.show();
 global.win = win;
+
+for (const arg of process.argv) {
+   console.log(arg);
+   const qlwi = new QListWidgetItem;
+   qlwi.setText(arg);
+   depth1_list.addItem(qlwi);
+}

@@ -18,6 +18,12 @@ build: clean dist/index.js
 	move $(build) $@
 	$(rcedit) $@/qode.exe --set-icon misc/icon.ico
 
+f: build/$(name).exe
+	./$<
+
+build/$(name).exe: src/stub.c
+	clang $< -Ofast -o $@
+
 clean:
 	-rd /s /q dist deploy build
 
