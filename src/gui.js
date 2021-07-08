@@ -14,6 +14,7 @@ const {
    QMessageBox,
 } = require("@nodegui/nodegui");
 
+// for an explanation of why this is here, see stub.c
 if (process.env.SETCWD) {
    process.chdir(process.env.SETCWD);
 }
@@ -22,9 +23,9 @@ const win = new QMainWindow;
 const win_width  = 900;
 const win_height = 685;
 win.setFixedSize(win_width, win_height);
-win.setWindowTitle("fs-date-archivist");
+win.setWindowTitle("fs_date_archivist");
 
-const icon_module = require("../misc/icon.ico");
+const icon_module = require("../res/icon.ico");
 const icon_path   = `${__dirname}/${icon_module.default}`;
 win.setWindowIcon(new QIcon(icon_path));
 

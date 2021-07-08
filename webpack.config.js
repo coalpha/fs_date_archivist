@@ -1,12 +1,10 @@
 const path = require("path");
 
-const dist = path.resolve(__dirname, "dist");
-
 module.exports = {
    mode: "production",
    entry: "./src/gui.js",
    target: "node",
-   output: {path: dist, filename: "index.js"},
+   output: {path: `${__dirname}/build/1_webpack`, filename: "index.js"},
    module: {
       rules: [
          {test: /\.node$/i, loader: "node-loader"},
