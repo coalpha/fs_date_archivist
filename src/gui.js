@@ -26,53 +26,14 @@ win.setFixedSize(win_width, win_height);
 win.setWindowTitle("fs_date_archivist");
 
 const icon_module = require("../res/icon.ico");
-const icon_path   = `${__dirname}/${icon_module.default}`;
+const icon_path   = `${__dirname}/${icon_module}`;
 win.setWindowIcon(new QIcon(icon_path));
 
 const root = new QWidget;
 root.setObjectName("root");
 win.setCentralWidget(root);
 
-root.setStyleSheet(`
-   *
-   {
-      font-family: Consolas, monospace;
-      font-size: 20px;
-      outline: none;
-   }
-   #root
-   {
-      color: #eed;
-      background-color: #111;
-   }
-   QLabel {
-      color: white;
-      border-bottom: 2px solid #ccd;
-      outline: none;
-   }
-   QScrollArea, QScrollBar {
-      background-color: #222;
-   }
-   QScrollBar::add-page, QScrollBar::sub-page {
-      background: none;
-   }
-   QScrollBar::up-arrow, QScrollBar::down-arrow {
-      display: none;
-   }
-   QScrollBar::handle {
-      background: #444;
-      border: 2px solid white;
-   }
-   QListWidget, QLineEdit {
-      color: white;
-      background-color: #222;
-      border: 2px solid white;
-   }
-   QListWidget::item:selected {
-      color: white;
-      background-color: rgba(100, 149, 237, 0.5);
-   }
-`);
+root.setStyleSheet(require("./gui.css"));
 
 const lbl_cwd = new QLabel(root);
 lbl_cwd.setObjectName("lbl_cwd");
@@ -83,7 +44,7 @@ const btn_height = 30;
 
 const go_button = new QPushButton(root);
 go_button.setText("start");
-const go_button_width  = 80;
+const go_button_width = 80;
 go_button.move(win_width - go_button_width - 10, 10);
 go_button.resize(go_button_width, 2 * btn_height);
 

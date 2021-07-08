@@ -7,8 +7,9 @@ module.exports = {
    output: {path: `${__dirname}/build/1_webpack`, filename: "index.js"},
    module: {
       rules: [
-         {test: /\.node$/i, loader: "node-loader"},
-         {test: /\.ico$/i,  loader: "file-loader"},
+         {test: /\.node$/, loader: "node-loader"},
+         {test: /\.ico$/ , type: "asset/resource"},
+         {test: /\.css$/ , type: "asset/source"},
       ]
    },
    resolve: {extensions: [".js"]}

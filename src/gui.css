@@ -1,0 +1,44 @@
+* {
+   font-family: Consolas, monospace;
+   font-size: 20px;
+   outline: none;
+}
+
+#root {
+   color: #eed;
+   background-color: #111;
+}
+
+QLabel {
+   color: white;
+   border-bottom: 2px solid #ccd;
+   outline: none;
+}
+
+QScrollArea, QScrollBar {
+   background-color: #222;
+}
+
+QScrollBar::add-page, QScrollBar::sub-page {
+   background: none;
+}
+
+QScrollBar::up-arrow, QScrollBar::down-arrow {
+   display: none;
+}
+
+QScrollBar::handle {
+   background: #444;
+   border: 2px solid white;
+}
+
+QListWidget, QLineEdit {
+   color: white;
+   background-color: #222;
+   border: 2px solid white;
+}
+
+QListWidget::item:selected {
+   color: white;
+   background-color: rgba(100, 149, 237, 0.5);
+}

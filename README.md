@@ -1,6 +1,6 @@
 # fs_date_archivist
 
-<img src="misc/icon.png" width="100px">
+<img src="res/icon.png" width="100px">
 
 ![](misc/gui.png)
 
