@@ -29,6 +29,9 @@ gui: $(build_0)
 clean:
 	-rd /s /q build
 
+build~3: $(build_3)
+	-
+
 build: clean $(build_3)
 	-
 
@@ -47,10 +50,27 @@ define set_icon =
 	vendor/rcedit/rcedit-x64.exe $1 --set-icon res/icon.ico
 endef
 
+cflags += -Oz
+cflags += -nodefaultlibs
+cflags += -ffreestanding
+cflags += -fno-stack-check
+cflags += -fno-stack-protector
+cflags += -mno-stack-arg-probe
+cflags += -Xlinker Kernel32.lib
+cflags += -Xlinker Shell32.lib
+cflags += -Xlinker /entry:start
+cflags += -Xlinker /nodefaultlib
+cflags += -Xlinker /subsystem:windows
+cflags += -Xlinker "/libpath:C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x64"
+
 $(build_3): $(build_2) src/stub.c
-	-move $< $@
-	clang $(word 2,$^) -Ofast -fuse-ld=lld -o $@/$n.exe
-	$(call set_icon,$@/$n.exe)
+	node util/mv $< $@
+	node util/rm $@/iconengines/qsvgicon.dll $@/imageformats/qgif.dll
+	node util/rm $@/imageformats/qjpeg.dll $@/imageformats/qsvg.dll
+
+	clang $(word 2,$^) $(cflags) -o $@/$n.exe
 	$(call set_icon,$@/qode.exe)
+	$(call set_icon,$@/$n.exe)
+
 
 .PHONY: cli gui clean build

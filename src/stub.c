@@ -22,16 +22,21 @@ A: Writing hobby code normally is kinda lame and boring. Extreme programming is
    with like a single batch script, I think. But that wouldn't be any fun, would
    it?
 */
-#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
+#include <memory.h>
+#include <wchar.h>
 
 // yes this has to be here since it gets zero initialized lol
 STARTUPINFOW si;
 
-int wmain(int argc, wchar_t *argv[]) {
+void start(void) {
    wchar_t *dirname;
    DWORD dirname_len = 0; // not including the null byte
+
    {
+      int argc;
+      LPWSTR *argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+
       /*
       So the way this is going to work is simple. The generated executable for
       stub.c (probably fs_date_archivist.exe) is going to remain in the same
@@ -66,7 +71,9 @@ int wmain(int argc, wchar_t *argv[]) {
    );
    {
       // qode_exe = "P:/rogram_files/fs_date_archivist/"
-      __builtin_memcpy(qode_exe, dirname, sizeof(wchar_t) * dirname_len);
+      for (size_t i = 0; i < dirname_len; ++i) {
+         qode_exe[i] = dirname[i];
+      }
       // qode_exe += "qode.exe\0"
       __builtin_memcpy(qode_exe + dirname_len, L"qode.exe", sizeof(L"qode.exe"));
    }
@@ -85,6 +92,16 @@ int wmain(int argc, wchar_t *argv[]) {
    __builtin_memcpy(env, L"SETCWD=", sizeof(L"SETCWD=") - sizeof(L""));
    GetCurrentDirectoryW(cwd_len, env + sizeof("SETCWD=") - sizeof(""));
 
+   ShellExecuteW(
+      NULL,
+      L"open",
+      qode_exe,
+      NULL,
+      dirname,
+      SW_RESTORE
+   );
+
+   /*
    PROCESS_INFORMATION pi;
    CreateProcessW(
       qode_exe,                   // lpApplicationName
@@ -98,4 +115,7 @@ int wmain(int argc, wchar_t *argv[]) {
       &si,                        // lpStartupInfo
       &pi                         // lpProcessInformation
    );
+   */
+
+   ExitProcess(0);
 }
