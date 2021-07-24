@@ -1,14 +1,8 @@
-# fs_date_archivist
+# fs-date-archivist
 
-<img src="res/icon.png" width="100px">
-
-![](misc/gui.png)
+![](res/gui.png)
 
 File dates can be a pretty useful trail of when you did what. This is a tool for
 archiving them.
 
-## how to run:
-
-- clone
-- npm i
-- make gui
+To install, see the releases.

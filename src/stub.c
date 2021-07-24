@@ -13,6 +13,8 @@ A: Good question, it's because right now, I don't really know how to code the
    like a better solution than this horrible hack that I'm having to do here.
    Admittedly, I didn't actually think of doing this before I wrote stub.c so
    the above is justification after the fact.
+A: Actually, stub.c solves a different problem than being able to change working
+   directories after launch. I think both solutions are good.
 
 Q: Why is the code below so... bad?
 A: Writing hobby code normally is kinda lame and boring. Extreme programming is
